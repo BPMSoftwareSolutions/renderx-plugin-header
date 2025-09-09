@@ -1,0 +1,28 @@
+# Ignore build output
+/dist/
+
+# Ignore dependencies
+/node_modules/
+
+# Ignore environment files
+.env
+
+# Ignore logs
+*.log
+npm-debug.log*
+
+# Ignore TypeScript build info
+*.tsbuildinfo
+
+# Ignore test coverage
+/coverage/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore editor swap/temporary files
+*.swp
+*.tmp
+
+# Ignore VS Code settings (optional)
+.vscode/
