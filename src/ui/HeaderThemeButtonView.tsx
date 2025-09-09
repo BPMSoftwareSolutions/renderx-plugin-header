@@ -1,7 +1,7 @@
 import React from "react";
 
 // Pure presentational button. No conductor, no side-effects here.
-export default React.forwardRef<HTMLButtonElement, {
+const HeaderThemeButtonView = React.forwardRef<HTMLButtonElement, {
   theme: "light" | "dark" | null;
   onToggle: () => void;
 }>(({ theme, onToggle }, ref) => {
@@ -11,4 +11,8 @@ export default React.forwardRef<HTMLButtonElement, {
     </button>
   );
 });
+
+HeaderThemeButtonView.displayName = "HeaderThemeButtonView";
+
+export default HeaderThemeButtonView;
 

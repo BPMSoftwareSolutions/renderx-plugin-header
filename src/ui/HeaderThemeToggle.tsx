@@ -2,15 +2,15 @@ import React from "react";
 import { useConductor, resolveInteraction } from "@renderx-plugins/host-sdk";
 import "./Header.css";
 
-const isTestEnv = typeof import.meta !== "undefined" && !!(import.meta as any).vitest;
+const isTestEnv = typeof import.meta !== "undefined" && !!(import.meta as { vitest?: boolean }).vitest;
 
 type HeaderButtonViewProps = { theme: "light" | "dark" | null; onToggle: () => void };
 
 // Provide a valid JSX component type in test to satisfy TS/JSX checks
 const HeaderThemeButtonShim = React.forwardRef<HTMLButtonElement, HeaderButtonViewProps>(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (_props, _ref) => null
+  (_props: HeaderButtonViewProps, _ref: React.Ref<HTMLButtonElement>) => null
 );
+HeaderThemeButtonShim.displayName = "HeaderThemeButtonShim";
 
 const HeaderThemeButtonView = isTestEnv
   ? (HeaderThemeButtonShim as unknown as React.ComponentType<
@@ -37,7 +37,7 @@ export function HeaderThemeToggle() {
       const route = resolveInteraction("app.ui.theme.get");
       conductor.play(route.pluginId, route.sequenceId, {
         onTheme: (t: "light" | "dark") => { if (!userInteractedRef.current) safeSetTheme(t); },
-      }, (result: any) => {
+      }, (result: { theme?: string }) => {
         const t = result?.theme;
         if (!userInteractedRef.current && (t === "light" || t === "dark")) safeSetTheme(t);
       });
@@ -53,7 +53,9 @@ export function HeaderThemeToggle() {
       const result = await conductor.play(route.pluginId, route.sequenceId, { theme: next });
       const updatedTheme = (result?.theme as "light" | "dark" | undefined) || next;
       safeSetTheme(updatedTheme);
-    } catch {}
+    } catch {
+      // Ignore theme toggle errors
+    }
   };
 
   return (

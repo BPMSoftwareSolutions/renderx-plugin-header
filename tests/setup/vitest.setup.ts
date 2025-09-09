@@ -6,22 +6,34 @@ import { vi } from "vitest";
 // Mock @renderx-plugins/host-sdk before any imports
 vi.mock("@renderx-plugins/host-sdk", () => ({
   useConductor: () => ({
-    play: vi.fn().mockImplementation(async (_pluginId: string, sequenceId: string, data?: any, callback?: (result: any) => void) => {
-      let result: any = {};
+    play: vi.fn().mockImplementation(async (_pluginId: string, sequenceId: string, data?: { onTheme?: (theme: string) => void; theme?: string }, callback?: (result: { theme?: string }) => void) => {
+      let result: { theme?: string } = {};
       if (sequenceId === "header-ui-theme-get-symphony") {
         const current = document?.documentElement?.getAttribute("data-theme") || "light";
         // Fire optional streaming callback
         if (data && typeof data.onTheme === "function") {
-          try { data.onTheme(current); } catch {}
+          try {
+            data.onTheme(current);
+          } catch {
+            // Ignore callback errors
+          }
         }
         result = { theme: current };
       } else if (sequenceId === "header-ui-theme-toggle-symphony") {
         const theme = (data?.theme as "light" | "dark") || "light";
-        try { document?.documentElement?.setAttribute("data-theme", theme); } catch {}
+        try {
+          document?.documentElement?.setAttribute("data-theme", theme);
+        } catch {
+          // Ignore DOM manipulation errors
+        }
         result = { theme };
       }
       if (typeof callback === "function") {
-        try { callback(result); } catch {}
+        try {
+          callback(result);
+        } catch {
+          // Ignore callback errors
+        }
       }
       return result;
     })

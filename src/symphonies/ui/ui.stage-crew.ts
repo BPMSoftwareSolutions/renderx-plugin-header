@@ -4,7 +4,9 @@ function safeGetStoredTheme(): "light" | "dark" | null {
       const v = localStorage.getItem("theme");
       return v === "dark" || v === "light" ? v : null;
     }
-  } catch {}
+  } catch {
+    // Ignore localStorage errors
+  }
   return null;
 }
 
@@ -13,14 +15,16 @@ function safeSetStoredTheme(theme: "light" | "dark") {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem("theme", theme);
     }
-  } catch {}
+  } catch {
+    // Ignore localStorage errors
+  }
 }
 
-function coerceTheme(v: any): "light" | "dark" | null {
+function coerceTheme(v: unknown): "light" | "dark" | null {
   return v === "dark" || v === "light" ? v : null;
 }
 
-export function getCurrentTheme(data: any, ctx: any) {
+export function getCurrentTheme(data: unknown, ctx: { payload: Record<string, unknown>; logger?: { warn?: (message: string, error: unknown) => void } }) {
   try {
     // Determine theme preference order: DOM attr -> storage -> default (dark)
     let currentTheme: "light" | "dark" = "dark";
@@ -53,7 +57,7 @@ export function getCurrentTheme(data: any, ctx: any) {
   }
 }
 
-export function toggleTheme(data: any, ctx: any) {
+export function toggleTheme(data: { theme?: unknown }, ctx: { payload: Record<string, unknown>; logger?: { warn?: (message: string, error: unknown) => void } }) {
   try {
     const next: "light" | "dark" = coerceTheme(data?.theme) || "light";
 
@@ -63,18 +67,22 @@ export function toggleTheme(data: any, ctx: any) {
         const el = document.documentElement;
         const raf =
           (typeof window !== "undefined" &&
-            (window as any).requestAnimationFrame) ||
+            (window as Window).requestAnimationFrame) ||
           null;
         const apply = () => el.setAttribute("data-theme", next);
         if (raf) raf(() => apply());
         else apply();
       }
-    } catch {}
+    } catch {
+      // Ignore DOM manipulation errors
+    }
 
     // Persist preference marker on ctx (no direct globals)
     try {
       ctx.payload.theme = next;
-    } catch {}
+    } catch {
+      // Ignore payload assignment errors
+    }
 
     // Persist to storage for cross-session retention
     safeSetStoredTheme(next);
