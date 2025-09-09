@@ -1,7 +1,7 @@
 /* @vitest-environment jsdom */
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { getCurrentTheme, toggleTheme } from "../../../../src/symphonies/ui/ui.stage-crew";
+import { getCurrentTheme, toggleTheme } from "@src/symphonies/ui/ui.stage-crew";
 
 describe("ui.stage-crew handlers", () => {
   beforeEach(() => {

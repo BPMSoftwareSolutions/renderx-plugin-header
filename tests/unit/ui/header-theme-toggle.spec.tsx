@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import { act } from "react";
 
 // Setup (loads @renderx/host-sdk mock)
-import "../../../setup/vitest.setup";
+import "@setup/vitest.setup";
 
 // Helper to wait for text changes (small polling window)
 async function waitForText(el: HTMLElement, expected: string, timeout = 400) {
@@ -36,7 +36,7 @@ describe("HeaderThemeToggle (plugin unit): button text and toggle behavior", () 
 
   it("shows 'Dark' label in light mode (switch TO dark)", async () => {
     document.documentElement.setAttribute("data-theme", "light");
-    const { HeaderThemeToggle } = await import("../../../../src/ui/HeaderThemeToggle");
+    const { HeaderThemeToggle } = await import("@src/ui/HeaderThemeToggle");
 
     root = createRoot(container);
     act(() => { root!.render(<HeaderThemeToggle />); });
@@ -49,7 +49,7 @@ describe("HeaderThemeToggle (plugin unit): button text and toggle behavior", () 
 
   it("shows 'Light' label in dark mode (switch TO light)", async () => {
     document.documentElement.setAttribute("data-theme", "dark");
-    const { HeaderThemeToggle } = await import("../../../../src/ui/HeaderThemeToggle");
+    const { HeaderThemeToggle } = await import("@src/ui/HeaderThemeToggle");
 
     root = createRoot(container);
     act(() => { root!.render(<HeaderThemeToggle />); });
@@ -62,7 +62,7 @@ describe("HeaderThemeToggle (plugin unit): button text and toggle behavior", () 
 
   it("toggles back and forth correctly", async () => {
     document.documentElement.setAttribute("data-theme", "light");
-    const { HeaderThemeToggle } = await import("../../../../src/ui/HeaderThemeToggle");
+    const { HeaderThemeToggle } = await import("@src/ui/HeaderThemeToggle");
 
     root = createRoot(container);
     act(() => { root!.render(<HeaderThemeToggle />); });
