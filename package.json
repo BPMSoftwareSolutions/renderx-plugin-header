@@ -1,6 +1,6 @@
 {
   "name": "@renderx-plugins/header",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "private": false,
   "type": "module",
   "description": "RenderX Header UI plugin (externalized package)",
@@ -40,7 +40,7 @@
     "./dist/**/*.css"
   ],
   "peerDependencies": {
-    "@renderx-plugins/host-sdk": ">=0.1.0",
+    "@renderx-plugins/host-sdk": ">=1.0.4-rc.0",
     "react": ">=18",
     "react-dom": ">=18"
   },
