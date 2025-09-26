@@ -1,6 +1,6 @@
 {
   "name": "@renderx-plugins/header",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "type": "module",
   "description": "RenderX Header UI plugin (externalized package)",
@@ -76,7 +76,7 @@
     ]
   },
   "devDependencies": {
-    "@renderx-plugins/host-sdk": "^0.1.1",
+    "@renderx-plugins/host-sdk": "^1.0.4-rc.0",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
